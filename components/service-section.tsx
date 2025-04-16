@@ -71,23 +71,9 @@ export default function ServiceSection() {
     <Card className="border-none shadow-md">
       <CardContent className="p-6">
         <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-          <Phone className="h-5 w-5 text-blue-600 mr-2" />
-          Essential Services
+          {/* <Phone className="h-5 w-5 text-blue-600 mr-2" /> */}
+          Online Butler
         </h2>
-
-        <div className="grid grid-cols-2 gap-3 mb-6">
-          {serviceContacts.map((contact, index) => (
-            <div key={index} className="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-lg">
-              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mb-2">
-                {contact.icon}
-              </div>
-              <span className="text-sm font-medium text-gray-800">{contact.name}</span>
-              <a href={`tel:${contact.number}`} className="text-blue-600 text-sm">
-                Ext. {contact.number}
-              </a>
-            </div>
-          ))}
-        </div>
 
         <div className="mt-6">
           <Button
@@ -96,7 +82,7 @@ export default function ServiceSection() {
             onClick={() => setChatOpen(true)}
           >
             <MessageSquare className="h-5 w-5 mr-2" />
-            Chat with Service Bot
+            Chat with Butler
           </Button>
         </div>
 

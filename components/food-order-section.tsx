@@ -19,10 +19,20 @@ interface CartItem extends MenuItem {
   quantity: number
 }
 
+interface Restaurant {
+  id: number
+  name: string
+  cuisine: string
+  priceRange: string
+  hours: string
+  image: string
+}
+
 export default function FoodOrderSection() {
   const [activeTab, setActiveTab] = useState("food")
   const [cart, setCart] = useState<CartItem[]>([])
   const [showCart, setShowCart] = useState(false)
+  const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null)
 
   const menuItems: MenuItem[] = [
     {
@@ -72,6 +82,33 @@ export default function FoodOrderSection() {
       price: 10,
       image: "/placeholder.svg?height=80&width=80",
       category: "amenities",
+    },
+  ]
+
+  const restaurants: Restaurant[] = [
+    {
+      id: 101,
+      name: "The Grand Bistro",
+      cuisine: "French, Continental",
+      priceRange: "$$$",
+      hours: "6:00 PM - 10:30 PM",
+      image: "/placeholder.svg?height=80&width=80",
+    },
+    {
+      id: 102,
+      name: "Sakura Japanese",
+      cuisine: "Japanese, Sushi",
+      priceRange: "$$",
+      hours: "12:00 PM - 3:00 PM, 6:00 PM - 10:00 PM",
+      image: "/placeholder.svg?height=80&width=80",
+    },
+    {
+      id: 103,
+      name: "Rooftop Grill",
+      cuisine: "Steakhouse, Grill",
+      priceRange: "$$$",
+      hours: "6:30 PM - 11:00 PM",
+      image: "/placeholder.svg?height=80&width=80",
     },
   ]
 
@@ -143,7 +180,76 @@ export default function FoodOrderSection() {
             </TabsTrigger>
           </TabsList>
 
-          {["food", "drinks", "amenities"].map((category) => (
+          <TabsContent value="food">
+            <Tabs defaultValue="order">
+              <TabsList className="grid w-full grid-cols-2 mb-4">
+                <TabsTrigger value="order">Order In-Room</TabsTrigger>
+                <TabsTrigger value="dine-in">Dine In</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="order" className="space-y-4">
+                {menuItems
+                  .filter((item) => item.category === "food")
+                  .map((item) => (
+                    <div key={item.id} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
+                      <img
+                        src={item.image || "/placeholder.svg"}
+                        alt={item.name}
+                        className="w-16 h-16 rounded-md object-cover"
+                      />
+                      <div className="flex-1">
+                        <div className="flex justify-between">
+                          <h3 className="font-medium text-gray-800">{item.name}</h3>
+                          <span className="font-medium">${item.price}</span>
+                        </div>
+                        <p className="text-sm text-gray-500 mt-1">{item.description}</p>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="mt-2 text-blue-600 border-blue-600"
+                          onClick={() => addToCart(item)}
+                        >
+                          <Plus className="h-4 w-4 mr-1" />
+                          Add to Order
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+              </TabsContent>
+
+              <TabsContent value="dine-in" className="space-y-4">
+                {restaurants.map((restaurant) => (
+                  <div key={restaurant.id} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
+                    <img
+                      src={restaurant.image || "/placeholder.svg"}
+                      alt={restaurant.name}
+                      className="w-16 h-16 rounded-md object-cover"
+                    />
+                    <div className="flex-1">
+                      <div className="flex justify-between">
+                        <h3 className="font-medium text-gray-800">{restaurant.name}</h3>
+                        <span className="text-sm text-gray-500">{restaurant.priceRange}</span>
+                      </div>
+                      <p className="text-sm text-gray-500 mt-1">{restaurant.cuisine}</p>
+                      <div className="flex items-center mt-1 text-sm text-gray-500">
+                        <span>Hours: {restaurant.hours}</span>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="mt-2 text-blue-600 border-blue-600"
+                        onClick={() => setSelectedRestaurant(restaurant)}
+                      >
+                        Book a Table
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </TabsContent>
+            </Tabs>
+          </TabsContent>
+
+          {["drinks", "amenities"].map((category) => (
             <TabsContent key={category} value={category} className="space-y-4">
               {filteredItems.map((item) => (
                 <div key={item.id} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
@@ -243,6 +349,73 @@ export default function FoodOrderSection() {
                   <Button className="w-full mt-4 bg-blue-600 hover:bg-blue-700">Place Order</Button>
                 </>
               )}
+            </div>
+          </div>
+        )}
+
+        {selectedRestaurant && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg p-6 max-w-sm w-full">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-semibold">Book a Table at {selectedRestaurant.name}</h3>
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => setSelectedRestaurant(null)}>
+                  &times;
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                  <input
+                    type="date"
+                    className="w-full p-2 border rounded-md"
+                    min={new Date().toISOString().split("T")[0]}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Time</label>
+                  <select className="w-full p-2 border rounded-md">
+                    <option>6:00 PM</option>
+                    <option>6:30 PM</option>
+                    <option>7:00 PM</option>
+                    <option>7:30 PM</option>
+                    <option>8:00 PM</option>
+                    <option>8:30 PM</option>
+                    <option>9:00 PM</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Number of Guests</label>
+                  <select className="w-full p-2 border rounded-md">
+                    <option>1 Person</option>
+                    <option>2 People</option>
+                    <option>3 People</option>
+                    <option>4 People</option>
+                    <option>5 People</option>
+                    <option>6+ People</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Special Requests</label>
+                  <textarea
+                    className="w-full p-2 border rounded-md"
+                    rows={3}
+                    placeholder="Any dietary restrictions or special requests?"
+                  ></textarea>
+                </div>
+              </div>
+
+              <div className="mt-6 flex space-x-2">
+                <Button variant="outline" className="flex-1" onClick={() => setSelectedRestaurant(null)}>
+                  Cancel
+                </Button>
+                <Button className="flex-1 bg-blue-600 hover:bg-blue-700" onClick={() => setSelectedRestaurant(null)}>
+                  Confirm Booking
+                </Button>
+              </div>
             </div>
           </div>
         )}

@@ -9,6 +9,7 @@ import ReminderSection from "@/components/reminder-section"
 import AttractionsSection from "@/components/attractions-section"
 import ServiceSection from "@/components/service-section"
 import FoodOrderSection from "@/components/food-order-section"
+import PropertyActivities from "@/components/property-activity"
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
@@ -50,11 +51,12 @@ export default function Home() {
       <div className="container max-w-md mx-auto px-4 py-6 space-y-8 pb-20">
         <WelcomeSection name={userData.name} />
         <RoomDetails roomNumber={userData.roomNumber} floor={userData.floor} roomType={userData.roomType} />
+        <PropertyActivities/>
         <CheckoutSection checkIn={userData.checkIn} checkOut={userData.checkOut} />
-        <ReminderSection />
-        <AttractionsSection />
+        {/* <ReminderSection /> */}
         <ServiceSection />
         <FoodOrderSection />
+        <AttractionsSection />
       </div>
     </main>
   )
