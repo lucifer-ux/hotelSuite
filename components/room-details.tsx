@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { ChevronDown, ChevronUp, Bed, Map, Key } from "lucide-react"
+import Wifi from "../public/wifi.svg"
 
 interface RoomDetailsProps {
   roomNumber: string
@@ -12,9 +13,11 @@ interface RoomDetailsProps {
 
 export default function RoomDetails({ roomNumber, floor, roomType }: RoomDetailsProps) {
   const [expanded, setExpanded] = useState(false)
-
+  const [wifiExpanded, setWifiExpanded] = useState(false)
   return (
+    <> 
     <Card className="border-none shadow-md">
+      
       <CardContent className="p-6">
         <div className="flex justify-between items-center cursor-pointer" onClick={() => setExpanded(!expanded)}>
           <div className="flex items-center">
@@ -36,7 +39,7 @@ export default function RoomDetails({ roomNumber, floor, roomType }: RoomDetails
             <span className="ml-2 text-gray-600">Room {roomNumber}</span>
           </div>
           <div className="text-gray-600">Floor {floor}</div>
-        </div>
+          </div>
 
         {expanded && (
           <div className="mt-4 space-y-4 pt-4 border-t border-gray-100">
@@ -62,5 +65,19 @@ export default function RoomDetails({ roomNumber, floor, roomType }: RoomDetails
         )}
       </CardContent>
     </Card>
+    <Card className="border-none shadow-md" onClick={() => setWifiExpanded(!wifiExpanded)}>
+      <div className="flex justify-center items-center">
+        <img className="ml-8" src="/wifi.svg" height={20} width={20}/>
+        <h4 className="m-8 flex items-center"> Wi-fi</h4>
+        {wifiExpanded ? (
+            <ChevronUp className="h-5 w-5 text-gray-500" />
+          ) : (
+            <ChevronDown className="h-5 w-5 text-gray-500" />
+          )}
+      </div>
+      {wifiExpanded && <p  className="pb-6 flex item-center justify-center">name: HotelWifi</p>}
+      {wifiExpanded && <p className="pb-6 flex item-center justify-center">password: 12345678</p>}
+    </Card>
+    </>
   )
 }
