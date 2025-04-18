@@ -88,9 +88,11 @@ export default function AttractionsSection() {
     useState<Attraction | null>(null);
   const [userLocation, setUserLocation] = useState<Location | null>(null);
   const [attractions, setAttractions] = useState<Attraction[]>([]);
+  const [ showLocationReq , setShowLocationReq ] = useState(false)
   const [attractionDetails, setattractionDetails] =
     useState<AttractionDetails | null>(null);
   const API_KEY = process.env.NEXT_PUBLIC_API_KEY
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -98,12 +100,15 @@ export default function AttractionsSection() {
           lat: position.coords.latitude,
           lon: position.coords.longitude,
         });
+        setShowLocationReq(false);
       },
       (err) => {
         console.error("error while fetching location", err.message);
+        setShowLocationReq(true);
       }
     );
   }, []);
+
   useEffect(() => {
     if (userLocation) {
       const fetchAttractions = async () => {
@@ -317,6 +322,11 @@ export default function AttractionsSection() {
 
         <Tabs defaultValue="places" onValueChange={setActiveTab}>
           Places to Visit
+          {showLocationReq && <div>
+            <h3>
+              Please enable your location to see attractions
+            </h3>
+            </div>}
           <TabsContent value="places" className="space-y-4">
             {attractions.map((attraction) => (
               <div
