@@ -472,7 +472,7 @@ export default function AttractionsSection() {
                       key={service.id}
                       className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"
                       onClick={() => {
-                        hamdleAppOpening(service.name, selectedAttractionBooking.point.lon, selectedAttractionBooking.point.lat)
+                        hamdleAppOpening(service.name, selectedAttractionBooking.point.lat, selectedAttractionBooking.point.lon)
                         // In a real app, this would open the respective app or booking flow
                         setSelectedAttractionBooking(null);
                       }}
