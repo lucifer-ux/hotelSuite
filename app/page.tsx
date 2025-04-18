@@ -10,6 +10,7 @@ import AttractionsSection from "@/components/attractions-section"
 import ServiceSection from "@/components/service-section"
 import FoodOrderSection from "@/components/food-order-section"
 import PropertyActivities from "@/components/property-activity"
+import AttractionsPage from "@/components/get-location-attraction"
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
@@ -56,6 +57,7 @@ export default function Home() {
         {/* <ReminderSection /> */}
         <ServiceSection />
         <FoodOrderSection />
+        <AttractionsPage/>
         <AttractionsSection />
       </div>
     </main>

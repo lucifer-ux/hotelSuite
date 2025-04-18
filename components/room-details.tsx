@@ -66,7 +66,7 @@ export default function RoomDetails({ roomNumber, floor, roomType }: RoomDetails
       </CardContent>
     </Card>
     <Card className="border-none shadow-md" onClick={() => setWifiExpanded(!wifiExpanded)}>
-      <div className="flex justify-center items-center">
+      <div className="flex items-center">
         <img className="ml-8" src="/wifi.svg" height={20} width={20}/>
         <h4 className="m-8 flex items-center"> Wi-fi</h4>
         {wifiExpanded ? (
