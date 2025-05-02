@@ -83,7 +83,6 @@ export default function Home() {
       });
       
       setPlaces(response.data.results);
-      console.log(response.data.results, "logggerrr");
       return response?.data?.results;
     } catch (error) {
       console.error(error);
@@ -108,7 +107,6 @@ export default function Home() {
           // fetchNearbyPlaces(latitude, longitude);
           const placesResp = await fetchPlaces(latitude, longitude);
           setPlaces(placesResp)
-          console.log(placesResp, "placesssss")
         },
         (error) => {
           console.error("Location error:", error);
@@ -122,7 +120,7 @@ export default function Home() {
 
   const fetchNearbyPlaces = async (lat: number, lon: number) => {
     try {
-      const apiKey = "1e2ca4f3abda491d99cde498e7c95cf4";
+      const apiKey = process.env.API_KEY;
       const radius = 5000; // 5 km
       const categories = "tourism.sights,tourism.attraction";
 
@@ -130,7 +128,6 @@ export default function Home() {
       `https://api.geoapify.com/v2/places?categories=tourism.attraction&filter=circle:${lon},${lat},5000&limit=5&apiKey=${apiKey}`
       );
       const data = await res.json();
-      console.log(data, "dataaaa")
       const results = data.features.map((feature: any) => ({
         name: feature.properties.name || "Unnamed Place",
         lat: feature.geometry.coordinates[1],

@@ -122,10 +122,6 @@ export default function ActivitiesSection({placesResponse}: ComponentProps) {
       [key]: !prev[key],
     }))
   }
-  placesResponse.map((place, idx) => {
-    console.log("mapceckk", place?.categories[0]?.icon?.prefix + "64" + place?.categories[0]?.icon?.suffix)
-  })
-  console.log("workingggg", placesResponse)
 
   const activities: Activity[] = [
     {
